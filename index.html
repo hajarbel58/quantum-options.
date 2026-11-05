@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>QUANTUM OPTIONS</title>
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap"
+    rel="stylesheet"
+  >
+  <link
+    href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
+    rel="stylesheet"
+  >
+
+  <style>
+    :root {
+      --gold-main: #ffb84d;
+      --gold-soft: rgba(255, 184, 77, .14);
+      --gold-border: rgba(255, 184, 77, .28);
+
+      --bg-deep: #070503;
+      --bg-glass: rgba(18, 12, 6, .72);
+
+      --text-main: #f5f5f4;
+      --text-muted: #cfcac4;
+    }
+
+    /* RESET */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Inter", sans-serif;
+    }
+
+    /* BACKGROUND */
+    body {
+      min-height: 100vh;
+      background:
+        radial-gradient(
+          circle at 75% 45%,
+          rgba(255, 184, 77, .18),
+          transparent 80%
+        ),
+        radial-gradient(
+          circle at 90% 70%,
+          rgba(255, 184, 77, .12),
+          transparent 50%
+        ),
+        linear-gradient(
+          180deg,
+          rgba(6, 5, 3, .65),
+          rgba(6, 5, 3, .85)
+        ),
+        url("/static/images/Plan de travail 1.png")
+          no-repeat center center fixed;
+
+      background-size: cover;
+      color: var(--text-main);
+    }
+
+    /* NAVBAR */
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 24px;
+      padding: 22px 70px;
+
+      background: linear-gradient(
+        to bottom,
+        rgba(10, 8, 5, .85),
+        rgba(10, 8, 5, .65)
+      );
+
+      backdrop-filter: blur(22px);
+      border-bottom: 1px solid var(--gold-border);
+      box-shadow: 0 15px 50px rgba(0, 0, 0, .75);
+    }
+
+    .logo {
+      font-size: 20px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      white-space: nowrap;
+    }
+
+    .logo i {
+      color: var(--gold-main);
+      margin-right: 6px;
+    }
+
+    .logo span:last-child {
+      color: var(--gold-main);
+    }
+
+    nav {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 28px;
+    }
+
+    nav a {
+      text-decoration: none;
+      font-size: 15px;
+      color: var(--text-muted);
+      position: relative;
+    }
+
+    nav a.active,
+    nav a:hover {
+      color: #fff;
+    }
+
+    nav a::after {
+      content: "";
+      position: absolute;
+      left: 50%;
+      bottom: -8px;
+      width: 0;
+      height: 2px;
+
+      background: var(--gold-main);
+      transition: width .3s;
+      transform: translateX(-50%);
+    }
+
+    nav a.active::after,
+    nav a:hover::after {
+      width: 100%;
+    }
+
+    .btn-header {
+      display: inline-block;
+      padding: 10px 26px;
+      border-radius: 30px;
+      border: 1px solid var(--gold-border);
+
+      background: linear-gradient(135deg, #ffd27a, #ffb84d);
+      color: #120c03;
+      font-size: 14px;
+      font-weight: 600;
+      text-decoration: none;
+      white-space: nowrap;
+
+      box-shadow: 0 12px 35px rgba(255, 184, 77, .25);
+    }
+
+    /* HERO */
+    .hero-layout {
+      width: calc(100% - 80px);
+      max-width: 1300px;
+      margin: 90px auto 0;
+      padding: 75px 65px 120px;
+
+      display: grid;
+      grid-template-columns: 1.2fr .8fr;
+      align-items: center;
+      gap: 60px;
+
+      background: linear-gradient(
+        180deg,
+        rgba(22, 15, 8, .94),
+        rgba(10, 7, 3, .97)
+      );
+
+      border-radius: 40px;
+      border: 1px solid var(--gold-border);
+      box-shadow: 0 60px 140px rgba(0, 0, 0, .75);
+    }
+
+    .hero-content,
+    .hero-panel {
+      min-width: 0;
+    }
+
+    .hero-content .badge {
+      display: inline-block;
+      padding: 8px 20px;
+      margin-bottom: 28px;
+
+      background: var(--gold-soft);
+      border: 1px solid var(--gold-border);
+      border-radius: 40px;
+
+      font-size: 12px;
+      line-height: 1.6;
+      color: var(--gold-main);
+    }
+
+    .hero-content h1 {
+      font-size: clamp(38px, 4.5vw, 60px);
+      line-height: 1.14;
+      letter-spacing: -1.5px;
+    }
+
+    .hero-content h1 span {
+      color: var(--gold-main);
+      background: linear-gradient(90deg, #ffd27a, #ffb84d);
+
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .hero-content p {
+      margin-top: 28px;
+      max-width: 520px;
+
+      font-size: 16px;
+      color: var(--text-muted);
+      line-height: 1.9;
+    }
+
+    .hero-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      margin-top: 35px;
+    }
+
+    .btn-main,
+    .btn-secondary {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 15px 28px;
+
+      border-radius: 30px;
+      font-size: 14px;
+      font-weight: 600;
+      text-decoration: none;
+      text-align: center;
+
+      transition: transform .25s, box-shadow .25s;
+    }
+
+    .btn-main {
+      background: linear-gradient(135deg, #ffd27a, #ffb84d);
+      color: #120c03;
+      box-shadow: 0 15px 40px rgba(255, 184, 77, .25);
+    }
+
+    .btn-secondary {
+      border: 1px solid var(--gold-border);
+      background: rgba(255, 184, 77, .08);
+      color: #fff;
+    }
+
+    .btn-main:hover,
+    .btn-secondary:hover {
+      transform: translateY(-3px);
+    }
+
+    /* PANNEAU DES FONCTIONNALITÉS */
+    .hero-panel {
+      background: linear-gradient(
+        180deg,
+        rgba(26, 18, 10, .9),
+        rgba(14, 9, 4, .95)
+      );
+
+      border: 1px solid var(--gold-border);
+      border-radius: 28px;
+      padding: 34px;
+
+      box-shadow: 0 25px 70px rgba(0, 0, 0, .5);
+    }
+
+    .metric {
+      margin-bottom: 26px;
+      padding-bottom: 24px;
+      border-bottom: 1px solid rgba(255, 184, 77, .12);
+    }
+
+    .metric:last-child {
+      margin-bottom: 0;
+      padding-bottom: 0;
+      border-bottom: none;
+    }
+
+    .metric h4 {
+      color: var(--gold-main);
+      font-size: 11px;
+      line-height: 1.6;
+      letter-spacing: 1px;
+    }
+
+    .metric span {
+      display: block;
+      margin-top: 10px;
+      font-size: 19px;
+      line-height: 1.55;
+      font-weight: 600;
+    }
+
+    /* CARTES */
+    .features {
+      position: relative;
+      width: calc(100% - 120px);
+      max-width: 1160px;
+
+      margin: -55px auto 90px;
+
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .card {
+      background: linear-gradient(
+        180deg,
+        rgba(22, 16, 8, .96),
+        rgba(12, 8, 4, .98)
+      );
+
+      border: 1px solid var(--gold-border);
+      border-radius: 24px;
+      padding: 28px 18px;
+
+      text-align: center;
+      transition: transform .3s;
+      box-shadow: 0 20px 55px rgba(0, 0, 0, .6);
+    }
+
+    .card:hover {
+      transform: translateY(-8px);
+    }
+
+    .card i {
+      display: inline-block;
+      font-size: 36px;
+      margin-bottom: 18px;
+      color: var(--gold-main);
+    }
+
+    .card h3 {
+      margin-bottom: 10px;
+      font-size: 15px;
+      line-height: 1.5;
+    }
+
+    .card p {
+      font-size: 12px;
+      line-height: 1.7;
+      color: var(--text-muted);
+    }
+
+    a:focus-visible {
+      outline: 2px solid var(--gold-main);
+      outline-offset: 6px;
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 1100px) {
+      header {
+        padding: 22px 30px;
+      }
+
+      .hero-layout {
+        padding: 55px 40px 100px;
+        gap: 35px;
+      }
+
+      .features {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 850px) {
+      header {
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+
+      nav {
+        gap: 22px;
+      }
+
+      .hero-layout {
+        grid-template-columns: 1fr;
+        width: calc(100% - 40px);
+        margin-top: 45px;
+        padding: 45px 30px;
+        border-radius: 28px;
+      }
+
+      .hero-content h1 {
+        font-size: 44px;
+      }
+
+      .hero-content p {
+        max-width: none;
+      }
+
+      .features {
+        width: calc(100% - 40px);
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        margin-top: 30px;
+      }
+    }
+
+    @media (max-width: 500px) {
+      header {
+        padding: 20px;
+      }
+
+      nav {
+        width: 100%;
+      }
+
+      nav a {
+        font-size: 13px;
+      }
+
+      .hero-layout {
+        padding: 32px 22px;
+      }
+
+      .hero-content h1 {
+        font-size: 35px;
+        letter-spacing: -1px;
+      }
+
+      .hero-content p {
+        font-size: 14px;
+      }
+
+      .hero-buttons {
+        flex-direction: column;
+      }
+
+      .hero-panel {
+        padding: 25px;
+      }
+
+      .metric span {
+        font-size: 17px;
+      }
+
+      .features {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        transition: none !important;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <div class="logo">
+      <i class="bx bx-trending-up" aria-hidden="true"></i>
+      <span>QUANTUM</span>
+      <span>OPTIONS</span>
+    </div>
+
+    <nav aria-label="Navigation principale">
+      <a href="#models">Modèles</a>
+      <a href="{{ url_for('quant_tools') }}">Outils</a>
+      <a href="{{ url_for('pricing') }}" class="active">Valorisation</a>
+    </nav>
+
+    <a href="{{ url_for('pricing') }}" class="btn-header">
+      Lancer l’application
+    </a>
+  </header>
+
+  <main>
+    <section class="hero-layout">
+      <div class="hero-content">
+        <div class="badge">
+          Valorisation d’options & simulation financière
+        </div>
+
+        <h1>
+          Explorer les modèles.<br>
+          <span>Valoriser les options.</span>
+        </h1>
+
+        <p>
+          Application de valorisation d’options et de simulation financière :
+          comparaison des modèles Black-Scholes et Monte Carlo,
+          simulation de trajectoires et estimation d’intégrales.
+        </p>
+
+        <div class="hero-buttons">
+          <a href="{{ url_for('pricing') }}" class="btn-main">
+            Valoriser une option
+          </a>
+
+          <a href="{{ url_for('quant_tools') }}" class="btn-secondary">
+            Explorer les outils
+          </a>
+        </div>
+      </div>
+
+      <div class="hero-panel">
+        <div class="metric">
+          <h4>MODÈLES DE VALORISATION</h4>
+          <span>Black-Scholes · Monte Carlo</span>
+        </div>
+
+        <div class="metric">
+          <h4>SIMULATION STOCHASTIQUE</h4>
+          <span>Mouvement brownien géométrique</span>
+        </div>
+
+        <div class="metric">
+          <h4>OUTILS NUMÉRIQUES</h4>
+          <span>Estimation d’intégrales par Monte Carlo</span>
+        </div>
+      </div>
+    </section>
+
+    <section id="models" class="features" aria-label="Modèles et outils">
+      <div class="card">
+        <i class="bx bx-line-chart" aria-hidden="true"></i>
+        <h3>Black-Scholes</h3>
+        <p>
+          Valorisation analytique des options européennes.
+        </p>
+      </div>
+
+      <div class="card">
+        <i class="bx bx-dice-5" aria-hidden="true"></i>
+        <h3>Monte Carlo</h3>
+        <p>
+          Estimation du prix par simulation des payoffs actualisés.
+        </p>
+      </div>
+
+  
+
+      <div class="card">
+        <i class="bx bx-trending-up" aria-hidden="true"></i>
+        <h3>Simulation du MBG</h3>
+        <p>
+          Simulation de trajectoires du mouvement brownien géométrique.
+        </p>
+      </div>
+
+      <div class="card">
+        <i class="bx bx-math" aria-hidden="true"></i>
+        <h3>Calcul d’intégrales</h3>
+        <p>
+          Approximation numérique d’intégrales par Monte Carlo.
+        </p>
+      </div>
+    </section>
+  </main>
+</body>
+</html>

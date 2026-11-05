@@ -1,0 +1,7 @@
+Flask>=3.1,<4
+gunicorn>=23,<24
+numpy>=2,<3
+scipy>=1.14,<2
+yfinance>=0.2.65,<1
+plotly>=6,<7
+scikit-learn>=1.6,<2

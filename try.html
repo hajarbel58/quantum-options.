@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>QUANTUM OPTIONS — Quantum Engine</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+<link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+
+<style>
+:root{
+  --gold-main:#ffb84d;
+  --gold-soft:rgba(255,184,77,.14);
+  --gold-border:rgba(255,184,77,.28);
+
+  --bg-deep:#070503;
+  --bg-glass:rgba(18,12,6,.72);
+
+  --text-main:#f5f5f4;
+  --text-muted:#cfcac4;
+}
+
+/* RESET */
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:'Inter',sans-serif;
+}
+
+/* BODY */
+body{
+  min-height:100vh;
+  background:
+    radial-gradient(circle at 70% 40%, rgba(255,184,77,.18), transparent 70%),
+    linear-gradient(180deg, rgba(6,5,3,.65), rgba(6,5,3,.9)),
+    url("/static/images/jumping-jax-SyOaHdEnBFo-unsplash.jpg") no-repeat center center fixed;
+  background-size:cover;
+  color:var(--text-main);
+  overflow-x:hidden;
+}
+
+/* NAVBAR */
+header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:22px 70px;
+  background:linear-gradient(to bottom, rgba(10,8,5,.9), rgba(10,8,5,.65));
+  backdrop-filter:blur(24px);
+  border-bottom:1px solid var(--gold-border);
+  box-shadow:0 20px 60px rgba(0,0,0,.75);
+}
+
+.logo{
+  font-size:20px;
+  font-weight:700;
+  letter-spacing:1px;
+}
+
+.logo i{ color:var(--gold-main); margin-right:6px; }
+.logo span:last-child{ color:var(--gold-main); }
+
+nav a{
+  margin:0 18px;
+  text-decoration:none;
+  font-size:16px;
+  color:var(--text-muted);
+}
+
+nav a.active,
+nav a:hover{ color:#fff; }
+
+.btn-header{
+  padding:10px 26px;
+  border-radius:30px;
+  border:1px solid var(--gold-border);
+  background:linear-gradient(135deg,#ffd27a,#ffb84d);
+  font-weight:600;
+  cursor:pointer;
+}
+
+/* ================= ENGINE ================= */
+
+.engine{
+  max-width:1700px;
+  margin:160px auto 160px;
+  padding:10px;
+  display:grid;
+  grid-template-columns:1fr 1.3fr 1fr;
+  gap:80px;
+  background:linear-gradient(180deg, rgba(22,15,8,.94), rgba(10,7,3,.97));
+  border-radius:60px;
+  border:1px solid var(--gold-border);
+  box-shadow:0 120px 240px rgba(0,0,0,.9);
+}
+
+/* FORMS */
+.engine-form{
+  background:rgba(14,9,4,.88);
+  border:1px solid var(--gold-border);
+  border-radius:36px;
+  padding:42px 36px;
+  margin-top:40px;
+}
+
+.engine-form h3{
+  font-size:18px;
+  margin-bottom:26px;
+  color:var(--gold-main);
+}
+
+.form-group{
+  margin-bottom:20px;
+}
+
+.form-group label{
+  display:block;
+  font-size:13px;
+  color:var(--text-muted);
+  margin-bottom:6px;
+}
+
+.form-group input,
+.form-group select{
+  width:100%;
+  padding:14px 16px;
+  border-radius:16px;
+  border:1px solid var(--gold-border);
+  background:rgba(255,255,255,.05);
+  color:#fff;
+}
+
+.form-submit{
+  width:100%;
+  padding:16px;
+  border:none;
+  border-radius:28px;
+  background:linear-gradient(135deg,#ffd27a,#ffb84d);
+  color:#120c03;
+  font-weight:700;
+  cursor:pointer;
+}
+
+/* RESULT */
+.result{
+  margin-top: 20px;
+  padding: 16px;
+  border: 1px solid var(--gold-border);
+  background: rgba(255, 184, 77, .08);
+  border-radius: 16px;
+}
+
+.error{
+  color: #ff6b6b;
+}
+
+/* CENTER */
+.engine-visual{
+  position:relative;
+}
+
+/* RESPONSIVE */
+@media(max-width:1100px){
+  .engine{
+    grid-template-columns:1fr;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <div class="logo">
+    <i class='bx bx-trending-up'></i>
+    <span>QUANTUM</span> <span>OPTIONS</span>
+  </div>
+
+  <nav>
+    <a href="#">Models</a>
+    <a href="#" class="active">Engine</a>
+    <a href="#">Docs</a>
+    <a href="#">Pricing</a>
+  </nav>
+
+  <button class="btn-header">Launch App</button>
+</header>
+
+<section class="engine">
+
+  <!-- GAUCHE : BROWNIEN -->
+  <div class="engine-form">
+    <h3>Simulation — Mouvement Brownien</h3>
+
+    <form method="post">
+      <input type="hidden" name="action" value="brownian">
+
+      <div class="form-group">
+        <label>Horizon T</label>
+        <input type="number" step="0.01" name="T" value="1.0">
+      </div>
+
+      <div class="form-group">
+        <label>Nombre de pas n</label>
+        <input type="number" name="n" value="1000">
+      </div>
+
+      <div class="form-group">
+        <label>Volatilité σ</label>
+        <input type="number" step="0.01" name="sigma" value="1.0">
+      </div>
+
+      <div class="form-group">
+        <label>Drift μ</label>
+        <input type="number" step="0.01" name="mu" value="0.0">
+      </div>
+
+      <div class="form-group">
+        <label>Type de processus</label>
+        <select name="drift_type">
+          <option value="standard">Brownien standard</option>
+          <option value="geometric">Brownien géométrique</option>
+        </select>
+      </div>
+
+      <button class="form-submit">Simuler</button>
+    </form>
+
+    <!-- RESULTAT BROWNIEN -->
+    {% if brownian_result %}
+      <div class="result">
+        {% if brownian_result.error %}
+          <p class="error">{{ brownian_result.error }}</p>
+        {% else %}
+          <p><b>Type :</b> {{ brownian_result.type }}</p>
+          <p>Graphique affiché au centre.</p>
+        {% endif %}
+      </div>
+    {% endif %}
+  </div>
+
+  <!-- CENTRE (graphique) -->
+  <div class="engine-visual">
+    {% if brownian_result and brownian_result.graph_html %}
+      {{ brownian_result.graph_html | safe }}
+    {% endif %}
+  </div>
+
+  <!-- DROITE : INTÉGRALES -->
+  <div class="engine-form">
+    <h3>Calcul d’Intégrale (Monte Carlo)</h3>
+
+    <form method="post">
+      <input type="hidden" name="action" value="integral">
+
+      <div class="form-group">
+        <label>Fonction f(x)</label>
+        <input type="text" name="fonction" value="x**2">
+      </div>
+
+      <div class="form-group">
+        <label>Borne a</label>
+        <input type="text" name="a" value="0">
+      </div>
+
+      <div class="form-group">
+        <label>Borne b</label>
+        <input type="text" name="b" value="1">
+      </div>
+
+      <div class="form-group">
+        <label>Nombre d’échantillons</label>
+        <input type="number" name="n_samples" value="100000">
+      </div>
+
+      <button class="form-submit">Calculer l’intégrale</button>
+    </form>
+
+    <!-- RESULTAT INTEGRAL -->
+    {% if integral_result is not none %}
+      <div class="result">
+        <p><b>Résultat :</b> {{ integral_result }}</p>
+      </div>
+    {% endif %}
+  </div>
+
+</section>
+
+</body>
+</html>

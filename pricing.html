@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>QUANTUM OPTIONS - Pricing</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap"
+    rel="stylesheet"
+  >
+  <link
+    href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
+    rel="stylesheet"
+  >
+
+  <style>
+    :root {
+      --gold-main: #ffb84d;
+      --gold-border: rgba(255, 184, 77, .28);
+      --bg-glass: rgba(255, 255, 255, .85);
+      --text-main: #120c03;
+      --text-muted: #6e5c4c;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Inter", sans-serif;
+    }
+
+    body {
+      min-height: 100vh;
+      background: linear-gradient(180deg, #fff8f0, #ffe8c8);
+      color: var(--text-main);
+      font-size: 15px;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 20px;
+      padding: 18px 60px;
+
+      background: linear-gradient(
+        to bottom,
+        rgba(255, 248, 240, .95),
+        rgba(255, 232, 196, .85)
+      );
+
+      border-bottom: 2px solid var(--gold-main);
+    }
+
+    .logo {
+      font-size: 20px;
+      font-weight: 700;
+    }
+
+    .logo i {
+      color: var(--gold-main);
+      margin-right: 6px;
+    }
+
+    .logo span {
+      color: var(--gold-main);
+    }
+
+    nav a {
+      margin: 0 16px;
+      text-decoration: none;
+      font-size: 15px;
+      color: var(--text-muted);
+    }
+
+    nav a.active {
+      color: var(--text-main);
+      font-weight: 600;
+    }
+
+    .container {
+      max-width: 1150px;
+      margin: 60px auto;
+      padding: 0 20px;
+      display: flex;
+      gap: 30px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .form-card,
+    .right-panel {
+      background: var(--bg-glass);
+      border: 1px solid var(--gold-border);
+      border-radius: 26px;
+      padding: 25px;
+      flex: 1 1 430px;
+      min-width: 0;
+    }
+
+    label,
+    .field-label {
+      font-weight: 600;
+      color: var(--text-muted);
+      font-size: 13px;
+      margin-top: 12px;
+      display: block;
+    }
+
+    input:not([type="radio"]),
+    select {
+      width: 100%;
+      padding: 12px;
+      margin-top: 6px;
+      border-radius: 14px;
+      border: 1px solid var(--gold-border);
+      background: #fff;
+      color: var(--text-main);
+      font-size: 14px;
+    }
+
+    .radio-group {
+      display: flex;
+      gap: 12px;
+      margin-top: 6px;
+    }
+
+    .radio-group label {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+
+      margin-top: 0;
+      padding: 10px;
+      border-radius: 14px;
+      background: #fff;
+      border: 1px solid var(--gold-border);
+      text-align: center;
+      cursor: pointer;
+    }
+
+    input[type="radio"] {
+      width: auto;
+      margin: 0;
+      accent-color: var(--gold-main);
+    }
+
+    button {
+      margin-top: 20px;
+      padding: 14px;
+      width: 100%;
+      border: none;
+      border-radius: 999px;
+      background: linear-gradient(135deg, #ffd27a, #ffb84d);
+      color: var(--text-main);
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    button:hover {
+      filter: brightness(.97);
+    }
+
+    .price-hero {
+      text-align: center;
+    }
+
+    .price-hero > span {
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    .price-hero h2 {
+      font-size: 2.8rem;
+      margin: 10px 0;
+      overflow-wrap: anywhere;
+
+      background: linear-gradient(90deg, #d88c20, #ffb84d);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .price-meta {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 12px 30px;
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+
+    .preview-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+      gap: 14px;
+      margin-top: 25px;
+    }
+
+    .preview-box {
+      padding: 15px 10px;
+      border: 1px solid var(--gold-border);
+      border-radius: 14px;
+      text-align: center;
+      background: #fff;
+    }
+
+    .preview-box span {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    .preview-box strong {
+      font-size: 1.4rem;
+    }
+
+    @media (max-width: 650px) {
+      header {
+        flex-direction: column;
+        padding: 20px;
+      }
+
+      .container {
+        margin: 30px auto;
+      }
+
+      .form-card,
+      .right-panel {
+        padding: 20px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  {% set selected_model =
+      request.form.get('model', model|default('Black-Scholes', true)) %}
+  {% set selected_type = request.form.get('option_type', 'call') %}
+  {% set selected_style = request.form.get('option_style', 'european') %}
+
+  <header>
+    <div class="logo">
+      <i class="bx bx-trending-up" aria-hidden="true"></i>
+      QUANTUM <span>OPTIONS</span>
+    </div>
+
+    <nav aria-label="Navigation principale">
+      <a href="{{ url_for('home') }}">Models</a>
+      <a href="{{ url_for('pricing') }}" class="active">Pricing</a>
+    </nav>
+  </header>
+
+  <main class="container">
+    <div class="form-card">
+      <form method="POST">
+        <label for="ticker">Ticker</label>
+        <input
+          id="ticker"
+          name="ticker"
+          value="{{ request.form.get('ticker', '') }}"
+        >
+
+        <label for="spot">Prix du sous-jacent (facultatif, remplace Yahoo Finance)</label>
+        <input id="spot" name="spot" type="number" min="0.000001" step="any"
+               placeholder="Exemple : 100" value="{{ request.form.get('spot', '') }}">
+        <label for="currency">Devise (pour le prix saisi manuellement)</label>
+        <input id="currency" name="currency" value="{{ request.form.get('currency', 'USD') }}" maxlength="8">
+        <span class="field-label">Option Type</span>
+        <div class="radio-group">
+          <label>
+            <input
+              type="radio"
+              name="option_type"
+              value="call"
+              {% if selected_type == 'call' %}checked{% endif %}
+            >
+            Call
+          </label>
+
+          <label>
+            <input
+              type="radio"
+              name="option_type"
+              value="put"
+              {% if selected_type == 'put' %}checked{% endif %}
+            >
+            Put
+          </label>
+        </div>
+
+        <span class="field-label">Style</span>
+        <div class="radio-group">
+          <label>
+            <input
+              type="radio"
+              name="option_style"
+              value="european"
+              {% if selected_style == 'european' %}checked{% endif %}
+            >
+            European
+          </label>
+
+          <label>
+            <input
+              type="radio"
+              name="option_style"
+              value="american"
+              {% if selected_style == 'american' %}checked{% endif %}
+            >
+            American
+          </label>
+        </div>
+
+        <label for="model">Model</label>
+        <select id="model" name="model">
+          <option
+            value="Black-Scholes"
+            {% if selected_model == 'Black-Scholes' %}selected{% endif %}
+          >
+            Black-Scholes
+          </option>
+
+          <option
+            value="Monte Carlo"
+            {% if selected_model == 'Monte Carlo' %}selected{% endif %}
+          >
+            Monte Carlo
+          </option>
+        </select>
+
+        <label for="strike">Strike</label>
+        <input
+          id="strike"
+          type="number"
+          step="any"
+          name="strike"
+          value="{{ request.form.get('strike', '100') }}"
+        >
+
+        <label for="maturity">Maturity (days)</label>
+        <input
+          id="maturity"
+          type="number"
+          name="maturity"
+          value="{{ request.form.get('maturity', '365') }}"
+        >
+
+        <label for="rate">Rate</label>
+        <input
+          id="rate"
+          type="number"
+          step="0.001"
+          name="rate"
+          value="{{ request.form.get('rate', '0.05') }}"
+        >
+
+        <label for="vol">Volatility</label>
+        <input
+          id="vol"
+          type="number"
+          step="0.001"
+          name="vol"
+          value="{{ request.form.get('vol', '0.2') }}"
+        >
+
+        <label for="steps">Dates d’exercice Monte Carlo américain (2 à 200)</label>
+        <input
+          id="steps"
+          type="number"
+          name="steps"
+          value="{{ request.form.get('steps', '50') }}"
+        >
+
+        <button type="submit">Run Pricing Engine</button>
+        <p style="margin-top:12px;font-size:12px;color:var(--text-muted)">Black-Scholes : options européennes. Monte Carlo : européennes ou américaines. Taux et volatilité en décimal (0.05 = 5 %).</p>
+      </form>
+    </div>
+
+    <div class="right-panel">
+      <div class="price-hero">
+        <span>Theoretical Price</span>
+
+        {% if price is number %}
+          <h2>{{ "%.2f"|format(price) }} {{ currency }}</h2>
+        {% elif price %}
+          <h2>{{ price }}</h2>
+        {% else %}
+          <h2>?</h2>
+        {% endif %}
+
+        {% if spot %}
+          <div class="price-meta">
+            <div>
+              Spot: {{ "%.2f"|format(spot) }} {{ currency }}
+            </div>
+            <div>
+              Model: {{ model }}
+            </div>
+          </div>
+        {% endif %}
+      </div>
+
+      <!-- Les Greeks sont affichés uniquement pour Black-Scholes. -->
+      {% if greeks and selected_model == 'Black-Scholes' %}
+        <div class="preview-grid">
+          {% for g, v in greeks.items() %}
+            <div class="preview-box">
+              <span>{{ g }}</span>
+              <strong>
+                {{ "%.4f"|format(v) if v is not none else "—" }}
+              </strong>
+            </div>
+          {% endfor %}
+        </div>
+      {% endif %}
+    </div>
+  </main>
+</body>
+</html>
